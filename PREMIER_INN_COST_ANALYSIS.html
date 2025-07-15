@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Premier Inn Cost Analysis</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #00314a;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2em;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    img.logo {
+      display: block;
+      margin: 0 auto 2em auto;
+      width: 300px;
+      border-radius: 16px;
+    }
+
+    h1, h2, h3 {
+      color: #00314a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5em 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #eff2f2;
+    }
+
+    th {
+      background-color: #eff2f2;
+      color: #00314a;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+      border-radius: 16px;
+      margin-bottom: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <img src="https://raw.githubusercontent.com/stevenstillstraining/plotly/main/images/logo.png" alt="Logo" class="logo">
+
+    <h1>Premier Inn Cost Analysis</h1>
+
+    <iframe src="https://stevenstillstraining.github.io/reporting/premier%20inn%20webscrape/PREMIER%20INN%20PRICES.html"></iframe>
+
+
+
+    <div id="table-container">
+      <h2>Weekly Data</Data></h2>
+      <p>Webscraped cost of Premier Inn booking Monday to Wednesday. 
+        <br>For Tuesday & Wednesday office attendance </p>
+      <table id="data-table"></table>
+    </div>
+  </div>
+
+  <script>
+    async function loadCSV(url) {
+      const response = await fetch(url);
+      const data = await response.text();
+      const rows = data.trim().split('\n').map(row => row.split(','));
+
+      const table = document.getElementById('data-table');
+      table.innerHTML = "";
+
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      rows[0].forEach(cell => {
+        const th = document.createElement('th');
+        th.textContent = cell;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      for (let i = 1; i < rows.length; i++) {
+        const tr = document.createElement('tr');
+        rows[i].forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+    }
+
+    loadCSV("https://raw.githubusercontent.com/stevenstillstraining/reporting/main/premier%20inn%20webscrape/rickmansworth%20premier%20inn%20prices.csv");
+  </script>
+</body>
+</html>

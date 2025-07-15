@@ -1,0 +1,10 @@
+﻿Item,Values,Maths
+Hotel Cost ,200,details below
+Travel Cost,100,
+Total Weekly Cost,300,=200+100
+Desired Visit Minimum,2,
+Expected Monthly Cost,600,=300*2
+Expected Annual Cost,7200,=600*12
+Adjusted for income Tax,10080,=7200+tax
+current compensation,74700,
+Requested,85000,=current compensation + adjustment (rounded)
