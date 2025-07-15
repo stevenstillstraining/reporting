@@ -34,6 +34,22 @@
       color: #00314a;
     }
 
+    .tag {
+      display: inline-block;
+      background-color: #eff2f2;
+      color: #00314a;
+      padding: 4px 10px;
+      margin: 5px;
+      border-radius: 12px;
+      font-size: 0.9em;
+    }
+
+    .warning {
+      font-weight: bold;
+      color: #e34a21;
+      margin: 1em 0;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -57,6 +73,11 @@
       background-color: #f9f9f9;
     }
 
+    tr.highlighted td {
+      color: #e34a21;
+      font-weight: bold;
+    }
+
     iframe {
       width: 100%;
       height: 450px;
@@ -71,27 +92,45 @@
 
     <img src="https://raw.githubusercontent.com/stevenstillstraining/plotly/main/images/logo.png" alt="Logo" class="logo">
 
+    <h1>Steven Stills <br>Cost Assessment</h1>
+    <p>This section contains sensitive data.</p>
+
+    <div>
+      <span class="tag">Salary Information</span>
+      <span class="tag">Cost Center Information</span>
+    </div>
+
+    <p class="warning">Please only view if you are authorised to do so.</p>
+    <BR><BR><BR><BR><BR>
+
+    <div id="cost-table-container">
+      <h2>Annual Cost Breakdown</h2>
+      <table id="cost-table"></table>
+    </div>
+
+    <hr style="margin: 3em 0;">
+
     <h1>Premier Inn Cost Analysis</h1>
 
     <iframe src="https://stevenstillstraining.github.io/reporting/premier%20inn%20webscrape/PREMIER%20INN%20PRICES.html"></iframe>
 
-
-
     <div id="table-container">
-      <h2>Weekly Data</Data></h2>
-      <p>Webscraped cost of Premier Inn booking Monday to Wednesday. 
-        <br>For Tuesday & Wednesday office attendance </p>
+      <h2>Weekly Data</h2>
+      <p>Webscraped cost of Premier Inn booking Monday to Wednesday.<br>
+        For Tuesday & Wednesday office attendance.
+      </p>
       <table id="data-table"></table>
     </div>
+
   </div>
 
   <script>
-    async function loadCSV(url) {
+    async function loadCSV(url, tableId, highlightLastRow = false) {
       const response = await fetch(url);
       const data = await response.text();
       const rows = data.trim().split('\n').map(row => row.split(','));
 
-      const table = document.getElementById('data-table');
+      const table = document.getElementById(tableId);
       table.innerHTML = "";
 
       const thead = document.createElement('thead');
@@ -107,6 +146,7 @@
       const tbody = document.createElement('tbody');
       for (let i = 1; i < rows.length; i++) {
         const tr = document.createElement('tr');
+        if (highlightLastRow && i === rows.length - 1) tr.classList.add("highlighted");
         rows[i].forEach(cell => {
           const td = document.createElement('td');
           td.textContent = cell;
@@ -117,7 +157,8 @@
       table.appendChild(tbody);
     }
 
-    loadCSV("https://raw.githubusercontent.com/stevenstillstraining/reporting/main/premier%20inn%20webscrape/rickmansworth%20premier%20inn%20prices.csv");
+    loadCSV("https://raw.githubusercontent.com/stevenstillstraining/reporting/main/premier%20inn%20webscrape/rickmansworth%20premier%20inn%20prices.csv", "data-table");
+    loadCSV("https://raw.githubusercontent.com/stevenstillstraining/reporting/main/premier%20inn%20webscrape/Cost%20Assessment.csv", "cost-table", true);
   </script>
 </body>
 </html>
